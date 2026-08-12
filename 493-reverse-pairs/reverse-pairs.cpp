@@ -1,51 +1,41 @@
 class Solution {
 public:
-int cnt = 0;
- void merge(vector<int>& arr, int low, int mid, int high) {
-        vector<int> temp;
-        int left = low, right = mid + 1;
-
-        while (left <= mid && right <= high) {
-            if (arr[left] <= arr[right])
-                temp.push_back(arr[left++]);
-            else
-                temp.push_back(arr[right++]);
-        }
-        while (left <= mid)
-            temp.push_back(arr[left++]);
-
-
-        while (right <= high)
-            temp.push_back(arr[right++]);
-
-        for (int i = low; i <= high; i++)
-            arr[i] = temp[i - low];
-    }
-    void countPairs(vector<int>& nums, int low, int mid, int high){
-        int right = mid + 1;
-        for(int i = low; i <= mid; i++){
-            while(right <= high && (long long)nums[i] > 2 * (long long)nums[right]) right++;
-            cnt += (right - (mid + 1));
-        }
-    }
-
-    void mergeSort(vector<int>& arr, int low, int high) {
-        if (low >= high)
-            return;
-
-        int mid = (low + high) / 2;
-
-        mergeSort(arr, low, mid);
-
-        mergeSort(arr, mid + 1, high);
-        
-        countPairs(arr, low, mid , high);
-
-        merge(arr, low, mid, high);
-    }
     int reversePairs(vector<int>& nums) {
-        int n = nums.size();
-        mergeSort(nums, 0, n - 1);
-        return cnt;
+        if (nums.empty()) return 0;
+        return mergeSort(nums, 0, nums.size() - 1);
+    }
+    private:
+    int mergeSort(vector<int>& nums, int left, int right) {
+        if (left >= right) return 0;
+
+        int mid = left + (right - left) / 2;
+        int count = mergeSort(nums, left, mid) + mergeSort(nums, mid + 1, right);
+
+        int j = mid + 1;
+        for (int i = left; i <= mid; ++i) {
+            while (j <= right && (long long)nums[i] > 2LL * nums[j]) {
+                j++;
+            }
+            count += (j - (mid + 1));
+        }
+        vector<int> temp;
+        temp.reserve(right - left + 1);
+        
+        int i = left, k = mid + 1;
+        while (i <= mid && k <= right) {
+            if (nums[i] <= nums[k]) {
+                temp.push_back(nums[i++]);
+            } else {
+                temp.push_back(nums[k++]);
+            }
+        }
+        while (i <= mid) temp.push_back(nums[i++]);
+        while (k <= right) temp.push_back(nums[k++]);
+
+        for (int p = 0; p < temp.size(); ++p) {
+            nums[left + p] = temp[p];
+        }
+
+        return count;
     }
 };
