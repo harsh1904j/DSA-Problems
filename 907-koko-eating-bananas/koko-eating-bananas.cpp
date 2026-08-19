@@ -1,12 +1,12 @@
 class Solution {
 public:
 int maxEle(vector<int>& arr){
-  int maxi = INT_MIN;
-  int n = arr.size();
-  for(int i = 0; i < n; i++){
-    maxi = max(arr[i], maxi);
-  }
-  return maxi;
+    int n = arr.size();
+    int maxi = INT_MIN;
+    for(int i = 0; i < n; i++){
+        maxi = max(arr[i], maxi);
+    }
+    return maxi;
 }
 long long func(vector<int>& arr, int h){
     int n = arr.size();
