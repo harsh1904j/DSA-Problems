@@ -6,7 +6,7 @@ public:
             };
         int n = s.size();
         int ans = 0;
-        for(int i = 0; i < n-1; i++){
+        for(int i = 0; i < n; i++){
             if(rom[s[i]]<rom[s[i+1]]){
                 ans -= rom[s[i]];
             }
@@ -14,6 +14,6 @@ public:
                 ans += rom[s[i]];
             }
         }
-        return ans + rom[s.back()];
+        return ans;
     }
 };
