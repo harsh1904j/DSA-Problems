@@ -1,7 +1,7 @@
 class Solution {
 public:
     int firstUniqChar(string s) {
-       unordered_map<int, int> find; 
+       int find[26] = {0};
        for(int i = 0; i < s.size();i++){
         find[s[i]-'a']++;
        }
