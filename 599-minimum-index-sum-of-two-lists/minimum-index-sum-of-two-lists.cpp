@@ -5,9 +5,8 @@ public:
         int n = list1.size();
         int m = list2.size();
         unordered_map<string,int> mpp;
-        for(int i = 0; i < n; i++){
-            mpp[list1[i]] = i;
-        }
+        for(int i = 0; i < n; i++)  mpp[list1[i]] = i;
+        
         int minSum = INT_MAX;
         int sum = 0;
         for(int j = 0; j < m; j++){
