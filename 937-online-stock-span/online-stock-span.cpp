@@ -5,7 +5,6 @@ int ind;
     StockSpanner() {
         ind = -1;
     }
-    
     int next(int price) {
         ind = ind + 1;
         while(!st.empty() && st.top().first <= price) st.pop();
