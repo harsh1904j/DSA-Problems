@@ -9,10 +9,7 @@ public:
                 if(nums[l] == 0) zeros--;
                 l++;
             }
-            if(zeros <= k){
-                int len = r-l+1;
-                maxlen = max(maxlen, len);
-            }
+            maxlen = max(maxlen, r - l + 1);
             r++;
         }
         return maxlen;
