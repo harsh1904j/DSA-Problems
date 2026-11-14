@@ -1,33 +1,31 @@
 class Solution {
 public:
-int m, n;
-vector<vector<int>>directions{{1,0}, {-1,0}, {0,1}, {0,-1}};
-bool find(vector<vector<char>>& board, int i, int j, int idx, string& word){
-    if(idx == word.size()) return true;
-    if(i<0||j<0||i>=m||j>=n||board[i][j] == '$') return false;
-    if(board[i][j] != word[idx]) return false;
-    char temp = board[i][j];
-    board[i][j] = '$';
-    bool found = false;
-    for(auto &dir : directions){
-        int new_i = i + dir[0];
-        int new_j = j + dir[1];
-        if(find(board, new_i, new_j, idx+1, word)){
-        found = true;
-        break;
-        }
+    bool find(vector<vector<char>>& board, const string& word, int i, int j, int k) {
+        if (k == word.size()) return true;
+        if (i < 0 || j < 0 || i >= board.size() || j >= board[0].size()) return false;
+        if (board[i][j] != word[k]) return false;
+        char temp = board[i][j];
+        board[i][j] = '$';            
+        bool found = find(board, word, i + 1, j, k + 1) ||
+                     find(board, word, i - 1, j, k + 1) ||
+                     find(board, word, i, j + 1, k + 1) ||
+                     find(board, word, i, j - 1, k + 1);
+        board[i][j] = temp;           
+        return found;
     }
-    board[i][j] = temp;
-    return found;
-}
     bool exist(vector<vector<char>>& board, string word) {
-        m = board.size();
-        n = board[0].size();
-        for(int i = 0; i < m; i++){
-            for(int j = 0; j < n; j++){
-                if(board[i][j] == word[0] && find(board, i, j, 0, word)) return true;
-            }
-        }
+        int m = board.size(), n = board[0].size();
+        if (word.size() > m * n) return false;
+        unordered_map<char, int> freq;
+        for (auto& row : board)
+            for (char c : row) freq[c]++;
+        for (char c : word)
+            if (--freq[c] < 0) return false;
+        if (freq[word[0]] > freq[word.back()])
+            reverse(word.begin(), word.end());
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                if (find(board, word, i, j, 0)) return true;
         return false;
     }
 };
